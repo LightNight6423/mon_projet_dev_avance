@@ -1,0 +1,22 @@
+{{ form_start(form) }}
+    {{ form_row(form.titre) }}
+    {{ form_row(form.developpeur) }}
+    {{ form_row(form.dateSortie) }}
+
+    <div class="mb-3">
+        {{ form_label(form.prix) }}
+        <div class="input-group">
+            {{ form_widget(form.prix) }}
+            <span class="input-group-text">€</span>
+        </div>
+        {{ form_help(form.prix) }}
+        {{ form_errors(form.prix) }}
+    </div>
+
+    {{ form_row(form.description) }}
+    {{ form_row(form.image) }}
+    {{ form_row(form.editeur) }}
+    {{ form_row(form.genre) }}
+
+    <button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
+{{ form_end(form) }}

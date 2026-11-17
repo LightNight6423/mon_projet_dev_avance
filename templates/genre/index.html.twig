@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Genre index{% endblock %}
+
+{% block breadcrumb_items %}
+    <li class="flex items-center">
+        <svg class="w-4 h-4 text-gray-400 mx-1" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+        </svg>
+        <span class="text-gray-800 font-medium">Liste des genres</span>
+    </li>
+{% endblock %}
+
+{% block body %}
+    <h1>Genre index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>Actif</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for genre in genres %}
+            <tr>
+                <td>{{ genre.id }}</td>
+                <td>{{ genre.nom }}</td>
+                <td>{{ genre.description }}</td>
+                <td>{{ genre.actif ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('app_genre_show', {'id': genre.id}) }}">show</a>
+                    <a href="{{ path('app_genre_edit', {'id': genre.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_genre_new') }}">Create new</a>
+{% endblock %}

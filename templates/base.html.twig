@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}MS-AD{% endblock %}</title>
+
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
+        {% endblock %}
+
+        {% block javascripts %}
+        {% endblock %}
+    </head>
+    <body class="m-0 font-sans bg-gray-50 text-gray-900">
+        {% block navbar %}
+            <nav class="flex items-center justify-between h-16 px-6 bg-gray-800 text-white shadow-md">
+                <a href="{{ path('default_index') }}" class="text-xl font-bold text-white">MS-AD</a>
+
+                <div class="flex gap-3">    
+                    <a class="px-4 py-2 rounded-md bg-blue-500 hover:bg-blue-600 text-white transition-colors cursor-pointer" href="{{ path('app_editeur_index') }}">Editeur</a>
+                    <a class="px-4 py-2 rounded-md bg-blue-500 hover:bg-blue-600 text-white transition-colors cursor-pointer" href="{{ path('app_genre_index') }}">Genre</a>
+                    <a class="px-4 py-2 rounded-md bg-blue-500 hover:bg-blue-600 text-white transition-colors cursor-pointer" href="{{ path('app_jeu_video_index') }}">Jeu Vidéo</a>
+                    <a class="px-4 py-2 rounded-md bg-blue-500 hover:bg-blue-600 text-white transition-colors cursor-pointer" href="{{ path('default_index') }}">Accueil</a>
+                </div>
+            </nav>
+        {% endblock %}
+
+        {% block breadcrumb %}
+            <div class="bg-white border-b border-gray-200 px-6 py-3">
+                <nav class="flex text-sm text-gray-600" aria-label="Breadcrumb">
+                    <ol class="inline-flex items-center space-x-2">
+                        <li>
+                            <a href="{{ path('default_index') }}" class="hover:text-blue-600 transition-colors flex items-center">
+                                <svg class="w-4 h-4 mr-1 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+                                </svg>
+                                Accueil
+                            </a>
+                        </li>
+                        {% block breadcrumb_items %}
+                            <!-- Les pages enfants pourront surcharger ce bloc pour ajouter des étapes -->
+                        {% endblock %}
+                    </ol>
+                </nav>
+            </div>
+        {% endblock %}
+
+        <main class="p-6">
+            {% block body %}
+
+
+
+            {% endblock %}
+        </main>
+    </body>
+</html>
