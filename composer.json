@@ -23,6 +23,7 @@
         "symfony/security-csrf": "7.4.*",
         "symfony/stimulus-bundle": "^3.7",
         "symfony/twig-bundle": "7.4.*",
+        "symfony/ux-icons": "^3.7",
         "symfony/ux-turbo": "^3.7",
         "symfony/validator": "7.4.*",
         "symfony/webpack-encore-bundle": "^2.4",
@@ -32,6 +33,7 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^4.3",
+        "symfony/http-client": "7.4.*",
         "symfony/maker-bundle": "^1.68",
         "symfony/stopwatch": "7.4.*",
         "symfony/web-profiler-bundle": "7.4.*"

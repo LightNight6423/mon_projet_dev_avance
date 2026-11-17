@@ -1,62 +1,68 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}JeuVideo index{% endblock %}
+{% block title %}Jeux vidéo{% endblock %}
 
 {% block breadcrumb_items %}
-    <li class="flex items-center">
-        <svg class="w-4 h-4 text-gray-400 mx-1" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-        </svg>
-        <span class="text-gray-800 font-medium">Liste des jeux vidéo</span>
-    </li>
+    {{ include('_partials/breadcrumb_item.html.twig', {label: 'Jeux vidéo'}) }}
 {% endblock %}
 
 {% block body %}
-    <h1>JeuVideo index</h1>
+    <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <h1 class="page-title">Liste des jeux vidéo</h1>
+        <a href="{{ path('app_jeu_video_new') }}" class="btn btn-primary">{{ ux_icon('lucide:plus', {class: 'size-4'}) }} Ajouter un jeu</a>
+    </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Images</th>
-                <th>Titre</th>
-                <th>Developpeur</th>
-                <th>DateSortie</th>
-                <th>Prix</th>
-                <th>Description</th>
-                <th>Editeur</th>
-                <th>Genre</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for jeu_video in jeu_videos %}
-            <tr>
-                <td>{{ jeu_video.id }}</td>
-                <td>
-                    {% if jeu_video.imageUrl %}
-                        <img src="{{ asset('uploads/' ~ jeu_video.imageUrl) }}" alt="{{ jeu_video.titre }}" width="200">
-                    {% endif %}
-                </td>
-                <td>{{ jeu_video.titre }}</td>
-                <td>{{ jeu_video.developpeur }}</td>
-                <td>{{ jeu_video.dateSortie ? jeu_video.dateSortie|date('d/m/Y') : '' }}</td>
-                <td>{{ jeu_video.prix | replace({'.': ','}) }}  {{ '€' }}</td>
-                <td>{{ jeu_video.description }}</td>
-                <td>{{ jeu_video.editeur.nom }}</td>
-                <td>{{ jeu_video.genre.nom }}</td>
-                <td>
-                    <a href="{{ path('app_jeu_video_show', {'id': jeu_video.id}) }}">Consulter</a>
-                    <a href="{{ path('app_jeu_video_edit', {'id': jeu_video.id}) }}">Modifier</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_jeu_video_new') }}">Ajouter un jeu</a>
+    <div class="card overflow-x-auto p-0">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Image</th>
+                    <th>Titre</th>
+                    <th>Développeur</th>
+                    <th>Sortie</th>
+                    <th>Prix</th>
+                    <th>Description</th>
+                    <th>Éditeur</th>
+                    <th>Genre</th>
+                    <th class="text-right">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for jeu_video in jeu_videos %}
+                <tr>
+                    <td class="text-slate-400">{{ jeu_video.id }}</td>
+                    <td>
+                        {% if jeu_video.imageUrl %}
+                            <img src="{{ asset('uploads/' ~ jeu_video.imageUrl) }}" alt="{{ jeu_video.titre }}" class="h-16 w-24 rounded-lg object-cover shadow-sm">
+                        {% else %}
+                            <div class="flex h-16 w-24 items-center justify-center rounded-lg bg-slate-100 text-xs text-slate-400">{{ ux_icon('lucide:image-off', {class: 'size-6'}) }}</div>
+                        {% endif %}
+                    </td>
+                    <td class="font-medium text-slate-900">{{ jeu_video.titre }}</td>
+                    <td>{{ jeu_video.developpeur }}</td>
+                    <td class="whitespace-nowrap">{{ jeu_video.dateSortie ? jeu_video.dateSortie|date('d/m/Y') : '' }}</td>
+                    <td class="whitespace-nowrap font-semibold">{{ jeu_video.prix|replace({'.': ','}) }}&nbsp;€</td>
+                    <td class="max-w-xs truncate">{{ jeu_video.description }}</td>
+                    <td>{{ jeu_video.editeur ? jeu_video.editeur.nom }}</td>
+                    <td>
+                        {% if jeu_video.genre %}
+                            <span class="badge bg-indigo-100 text-indigo-700">{{ jeu_video.genre.nom }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="flex justify-end gap-2">
+                            <a href="{{ path('app_jeu_video_show', {'id': jeu_video.id}) }}" class="btn btn-sm">{{ ux_icon('lucide:eye', {class: 'size-3.5'}) }} Consulter</a>
+                            <a href="{{ path('app_jeu_video_edit', {'id': jeu_video.id}) }}" class="btn btn-sm btn-primary">{{ ux_icon('lucide:pencil', {class: 'size-3.5'}) }} Modifier</a>
+                        </div>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="10" class="py-8 text-center text-slate-500">Aucun jeu vidéo trouvé.</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

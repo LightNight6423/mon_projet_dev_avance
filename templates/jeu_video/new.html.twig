@@ -1,11 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New JeuVideo{% endblock %}
+{% block title %}Nouveau jeu vidéo{% endblock %}
+
+{% block breadcrumb_items %}
+    {{ include('_partials/breadcrumb_item.html.twig', {label: 'Jeux vidéo', url: path('app_jeu_video_index')}) }}
+    {{ include('_partials/breadcrumb_item.html.twig', {label: 'Nouveau'}) }}
+{% endblock %}
 
 {% block body %}
-    <h1>Ajouter un JeuVideo</h1>
+    <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <h1 class="page-title">Ajouter un jeu vidéo</h1>
+        <a href="{{ path('app_jeu_video_index') }}" class="btn">{{ ux_icon('lucide:arrow-left', {class: 'size-4'}) }} Retour à la liste</a>
+    </div>
 
-    {{ include('jeu_video/_form.html.twig') }}
-
-    <a href="{{ path('app_jeu_video_index') }}">Retour à la liste</a>
+    <div class="card max-w-4xl">
+        {{ include('jeu_video/_form.html.twig') }}
+    </div>
 {% endblock %}

@@ -1,54 +1,58 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Editeur index{% endblock %}
+{% block title %}Éditeurs{% endblock %}
 
 {% block breadcrumb_items %}
-    <li class="flex items-center">
-        <svg class="w-4 h-4 text-gray-400 mx-1" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-        </svg>
-        <span class="text-gray-800 font-medium">Liste des éditeurs</span>
-    </li>
+    {{ include('_partials/breadcrumb_item.html.twig', {label: 'Éditeurs'}) }}
 {% endblock %}
 
 {% block body %}
-    <h1>Editeur index</h1>
+    <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <h1 class="page-title">Liste des éditeurs</h1>
+        <a href="{{ path('app_editeur_new') }}" class="btn btn-primary">{{ ux_icon('lucide:plus', {class: 'size-4'}) }} Ajouter un éditeur</a>
+    </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Pays</th>
-                <th>SiteWeb</th>
-                <th>Description</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for editeur in editeurs %}
-            <tr>
-                <td>{{ editeur.id }}</td>
-                <td>{{ editeur.nom }}</td>
-                <td>{{ editeur.pays }}</td>
-                <td>{{ editeur.siteWeb }}</td>
-                <td>{{ editeur.description }}</td>
-                <td>{{ editeur.createdAt ? editeur.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ editeur.updatedAt ? editeur.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_editeur_show', {'id': editeur.id}) }}">show</a>
-                    <a href="{{ path('app_editeur_edit', {'id': editeur.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_editeur_new') }}">Create new</a>
+    <div class="card overflow-x-auto p-0">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nom</th>
+                    <th>Pays</th>
+                    <th>Site web</th>
+                    <th>Description</th>
+                    <th>Créé le</th>
+                    <th>Modifié le</th>
+                    <th class="text-right">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for editeur in editeurs %}
+                <tr>
+                    <td class="text-slate-400">{{ editeur.id }}</td>
+                    <td class="font-medium text-slate-900">{{ editeur.nom }}</td>
+                    <td>{{ editeur.pays }}</td>
+                    <td>
+                        {% if editeur.siteWeb %}
+                            <a href="{{ editeur.siteWeb }}" class="link" target="_blank" rel="noopener">{{ editeur.siteWeb }} {{ ux_icon('lucide:external-link', {class: 'inline size-3.5 align-[-2px]'}) }}</a>
+                        {% endif %}
+                    </td>
+                    <td class="max-w-xs truncate">{{ editeur.description }}</td>
+                    <td class="whitespace-nowrap">{{ editeur.createdAt ? editeur.createdAt|date('d/m/Y H:i') : '' }}</td>
+                    <td class="whitespace-nowrap">{{ editeur.updatedAt ? editeur.updatedAt|date('d/m/Y H:i') : '' }}</td>
+                    <td>
+                        <div class="flex justify-end gap-2">
+                            <a href="{{ path('app_editeur_show', {'id': editeur.id}) }}" class="btn btn-sm">{{ ux_icon('lucide:eye', {class: 'size-3.5'}) }} Consulter</a>
+                            <a href="{{ path('app_editeur_edit', {'id': editeur.id}) }}" class="btn btn-sm btn-primary">{{ ux_icon('lucide:pencil', {class: 'size-3.5'}) }} Modifier</a>
+                        </div>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="8" class="py-8 text-center text-slate-500">Aucun éditeur trouvé.</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

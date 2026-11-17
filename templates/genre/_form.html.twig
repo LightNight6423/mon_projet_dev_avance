@@ -1,4 +1,6 @@
-{{ form_start(form) }}
+{{ form_start(form, {attr: {class: 'form-stack'}}) }}
     {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Enregistrer') }}</button>
+    <div>
+        <button class="btn btn-primary">{{ ux_icon('lucide:save', {class: 'size-4'}) }} {{ button_label|default('Enregistrer') }}</button>
+    </div>
 {{ form_end(form) }}

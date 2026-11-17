@@ -1,0 +1,10 @@
+{# Usage : {{ include('_partials/breadcrumb_item.html.twig', {label: 'Genres', url: path('app_genre_index')}) }}
+   Sans "url", l'élément est affiché comme page courante. #}
+<li class="flex items-center gap-1">
+    {{ ux_icon('lucide:chevron-right', {class: 'size-4 text-slate-400'}) }}
+    {% if url is defined and url %}
+        <a href="{{ url }}" class="transition-colors hover:text-indigo-600">{{ label }}</a>
+    {% else %}
+        <span class="font-medium text-slate-800" aria-current="page">{{ label }}</span>
+    {% endif %}
+</li>

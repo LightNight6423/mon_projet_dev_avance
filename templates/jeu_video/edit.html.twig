@@ -1,13 +1,30 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier le Jeu Vidéo {{ jeu_video.titre }}{% endblock %}
+{% block title %}Modifier le jeu vidéo {{ jeu_video.titre }}{% endblock %}
+
+{% block breadcrumb_items %}
+    {{ include('_partials/breadcrumb_item.html.twig', {label: 'Jeux vidéo', url: path('app_jeu_video_index')}) }}
+    {{ include('_partials/breadcrumb_item.html.twig', {label: jeu_video.titre, url: path('app_jeu_video_show', {'id': jeu_video.id})}) }}
+    {{ include('_partials/breadcrumb_item.html.twig', {label: 'Modifier'}) }}
+{% endblock %}
 
 {% block body %}
-    <h1>Modifier le Jeu Vidéo {{ jeu_video.titre }}</h1>
+    <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <h1 class="page-title">Modifier {{ jeu_video.titre }}</h1>
+        <div class="flex flex-wrap gap-2">
+            <a href="{{ path('app_jeu_video_index') }}" class="btn">{{ ux_icon('lucide:arrow-left', {class: 'size-4'}) }} Retour à la liste</a>
+            {{ include('jeu_video/_delete_form.html.twig') }}
+        </div>
+    </div>
 
-    {{ include('jeu_video/_form.html.twig', {'button_label': 'Valider'}) }}
+    {% if jeu_video.imageUrl %}
+        <div class="card mb-4 flex max-w-4xl items-center gap-4 p-4">
+            <img src="{{ asset('uploads/' ~ jeu_video.imageUrl) }}" alt="{{ jeu_video.titre }}" class="h-20 w-32 rounded-lg object-cover">
+            <p class="text-sm text-slate-500">Image actuelle. Choisissez un nouveau fichier ci-dessous pour la remplacer.</p>
+        </div>
+    {% endif %}
 
-    <a href="{{ path('app_jeu_video_index') }}">Retour à la liste</a>
-
-    {{ include('jeu_video/_delete_form.html.twig') }}
+    <div class="card max-w-4xl">
+        {{ include('jeu_video/_form.html.twig', {'button_label': 'Valider'}) }}
+    </div>
 {% endblock %}

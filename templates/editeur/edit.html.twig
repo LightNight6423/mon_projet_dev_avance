@@ -1,13 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Editeur{% endblock %}
+{% block title %}Modifier l'éditeur {{ editeur.nom }}{% endblock %}
+
+{% block breadcrumb_items %}
+    {{ include('_partials/breadcrumb_item.html.twig', {label: 'Éditeurs', url: path('app_editeur_index')}) }}
+    {{ include('_partials/breadcrumb_item.html.twig', {label: editeur.nom, url: path('app_editeur_show', {'id': editeur.id})}) }}
+    {{ include('_partials/breadcrumb_item.html.twig', {label: 'Modifier'}) }}
+{% endblock %}
 
 {% block body %}
-    <h1>Edit Editeur</h1>
+    <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <h1 class="page-title">Modifier l'éditeur {{ editeur.nom }}</h1>
+        <div class="flex flex-wrap gap-2">
+            <a href="{{ path('app_editeur_index') }}" class="btn">{{ ux_icon('lucide:arrow-left', {class: 'size-4'}) }} Retour à la liste</a>
+            {{ include('editeur/_delete_form.html.twig') }}
+        </div>
+    </div>
 
-    {{ include('editeur/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_editeur_index') }}">back to list</a>
-
-    {{ include('editeur/_delete_form.html.twig') }}
+    <div class="card max-w-3xl">
+        {{ include('editeur/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+    </div>
 {% endblock %}

@@ -1,13 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Genre{% endblock %}
+{% block title %}Modifier le genre {{ genre.nom }}{% endblock %}
+
+{% block breadcrumb_items %}
+    {{ include('_partials/breadcrumb_item.html.twig', {label: 'Genres', url: path('app_genre_index')}) }}
+    {{ include('_partials/breadcrumb_item.html.twig', {label: genre.nom, url: path('app_genre_show', {'id': genre.id})}) }}
+    {{ include('_partials/breadcrumb_item.html.twig', {label: 'Modifier'}) }}
+{% endblock %}
 
 {% block body %}
-    <h1>Edit Genre</h1>
+    <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <h1 class="page-title">Modifier le genre {{ genre.nom }}</h1>
+        <div class="flex flex-wrap gap-2">
+            <a href="{{ path('app_genre_index') }}" class="btn">{{ ux_icon('lucide:arrow-left', {class: 'size-4'}) }} Retour à la liste</a>
+            {{ include('genre/_delete_form.html.twig') }}
+        </div>
+    </div>
 
-    {{ include('genre/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_genre_index') }}">back to list</a>
-
-    {{ include('genre/_delete_form.html.twig') }}
+    <div class="card max-w-3xl">
+        {{ include('genre/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+    </div>
 {% endblock %}

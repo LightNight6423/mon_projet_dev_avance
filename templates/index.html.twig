@@ -3,8 +3,22 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
-    <h1 class="text-red-600">NomAppli</h1>
-    <h2 class="bg-purple-400">Alexandre DUCOURET, Mathis SAUVAGE</h2>
-    <h2>Groupe : G7A</h2>
-    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London, took a 1914 Cicero translation and scrambled it to make dummy text for Letraset's Body Type sheets. It has survived not only many decades, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised thanks to these sheets and more recently with desktop publishing software like Aldus PageMaker and Microsoft Word including versions of Lorem Ipsum.</p>
+    <div class="card mb-4">
+        <h1 class="page-title mb-1">MS-AD</h1>
+        <p class="mb-4 text-sm text-slate-500">Alexandre DUCOURET, Mathis SAUVAGE — Groupe G7A</p>
+        <p class="leading-relaxed text-slate-600">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London, took a 1914 Cicero translation and scrambled it to make dummy text for Letraset's Body Type sheets. It has survived not only many decades, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised thanks to these sheets and more recently with desktop publishing software like Aldus PageMaker and Microsoft Word including versions of Lorem Ipsum.</p>
+    </div>
+
+    <div class="grid gap-4 sm:grid-cols-3">
+        {% for item in [
+            {label: 'Jeux vidéo', text: 'Consulter et gérer le catalogue de jeux.', route: 'app_jeu_video_index'},
+            {label: 'Éditeurs',   text: 'Gérer les éditeurs de jeux.',              route: 'app_editeur_index'},
+            {label: 'Genres',     text: 'Gérer les genres de jeux.',                route: 'app_genre_index'},
+        ] %}
+            <a href="{{ path(item.route) }}" class="card group transition hover:-translate-y-0.5 hover:shadow-md">
+                <h2 class="mb-1 flex items-center gap-2 text-lg font-semibold text-slate-800 group-hover:text-indigo-600">{{ item.label }} {{ ux_icon('lucide:arrow-right', {class: 'size-4 transition-transform group-hover:translate-x-1'}) }}</h2>
+                <p class="text-sm text-slate-500">{{ item.text }}</p>
+            </a>
+        {% endfor %}
+    </div>
 {% endblock %}
