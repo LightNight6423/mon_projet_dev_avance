@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Collect;
+use App\Entity\Utilisateur;
+use App\Enum\StatutJeuEnum;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,28 +18,30 @@ class CollectRepository extends ServiceEntityRepository
         parent::__construct($registry, Collect::class);
     }
 
-//    /**
-//     * @return Collect[] Returns an array of Collect objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+/**
+     * Liste des jeux en collection, filtrée par joueur et/ou statut (filtres optionnels).
+     *
+     * @return Collect[]
+     */
+    public function findByFilters(?Utilisateur $utilisateur, ?StatutJeuEnum $statut): array
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->addSelect('u', 'j')
+            ->innerJoin('c.utilisateur', 'u')
+            ->innerJoin('c.jeuVideo', 'j')
+            ->orderBy('u.pseudo', 'ASC')
+            ->addOrderBy('j.titre', 'ASC');
 
-//    public function findOneBySomeField($value): ?Collect
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        if ($utilisateur !== null) {
+            $qb->andWhere('c.utilisateur = :utilisateur')
+                ->setParameter('utilisateur', $utilisateur);
+        }
+
+        if ($statut !== null) {
+            $qb->andWhere('c.statut = :statut')
+                ->setParameter('statut', $statut);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 }

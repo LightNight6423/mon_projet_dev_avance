@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Utilisateurs{% endblock %}
+
+{% block breadcrumb_items %}
+    {{ include('_partials/breadcrumb_item.html.twig', {label: 'Utilisateurs'}) }}
+{% endblock %}
+
+{% block body %}
+    <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <h1 class="page-title">Collections des utilisateurs</h1>
+    </div>
+
+    <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        {% for utilisateur in utilisateurs %}
+            {% set nbJeux = utilisateur.collects|length %}
+            <div class="card flex flex-col gap-4">
+                <div class="flex items-center gap-3">
+                    {% if utilisateur.imageProfil %}
+                        <img src="{{ asset('uploads/' ~ utilisateur.imageProfil) }}" alt="Photo de {{ utilisateur.pseudo }}" class="size-12 shrink-0 rounded-full object-cover">
+                    {% else %}
+                        <span class="flex size-12 shrink-0 items-center justify-center rounded-full bg-indigo-100 font-semibold text-indigo-700">
+                            {{ utilisateur.prenom|first|upper }}{{ utilisateur.nom|first|upper }}
+                        </span>
+                    {% endif %}
+                    <div class="min-w-0">
+                        <p class="truncate font-semibold text-slate-900">
+                            <span class="text-slate-400">[{{ utilisateur.pseudo }}]</span>
+                            {{ utilisateur.prenom }} {{ utilisateur.nom|upper }}
+                        </p>
+                        <a href="mailto:{{ utilisateur.mail }}" class="link block truncate text-sm">{{ utilisateur.mail }}</a>
+                    </div>
+                </div>
+
+                <p class="text-sm text-slate-600">
+                    {{ ux_icon('lucide:layers', {class: 'inline size-4 align-text-bottom text-slate-400'}) }}
+                    {{ nbJeux }} {{ nbJeux > 1 ? 'jeux' : 'jeu' }} dans la collection
+                </p>
+
+                <div class="mt-auto flex flex-wrap gap-2">
+                    <a href="{{ path('app_collect_index', {utilisateur: utilisateur.id}) }}" class="btn btn-sm flex-1">{{ ux_icon('lucide:eye', {class: 'size-3.5'}) }} Voir les jeux</a>
+                    <a href="{{ path('app_collect_new', {utilisateur: utilisateur.id}) }}" class="btn btn-sm btn-primary flex-1">{{ ux_icon('lucide:plus', {class: 'size-3.5'}) }} Ajouter un jeu</a>
+                </div>
+            </div>
+        {% else %}
+            <p class="card text-center text-slate-500 sm:col-span-2 xl:col-span-3">Aucun utilisateur.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

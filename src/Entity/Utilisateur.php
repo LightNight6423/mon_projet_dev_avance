@@ -43,6 +43,11 @@ class Utilisateur
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
+    public function __construct()
+    {
+        $this->collects = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;

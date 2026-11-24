@@ -16,28 +16,19 @@ class UtilisateurRepository extends ServiceEntityRepository
         parent::__construct($registry, Utilisateur::class);
     }
 
-//    /**
-//     * @return Utilisateur[] Returns an array of Utilisateur objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('u.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Utilisateur
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+/**
+     * Tous les utilisateurs avec leur collection chargée (évite une requête par utilisateur).
+     *
+     * @return Utilisateur[]
+     */
+    public function findAllWithCollects(): array
+    {
+        return $this->createQueryBuilder('u')
+            ->addSelect('c')
+            ->leftJoin('u.collects', 'c')
+            ->orderBy('u.nom', 'ASC')
+            ->addOrderBy('u.prenom', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }

@@ -9,8 +9,41 @@
 {% block body %}
     <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
         <h1 class="page-title">Collections</h1>
-        <a href="{{ path('app_collect_new') }}" class="btn btn-primary">{{ ux_icon('lucide:plus', {class: 'size-4'}) }} Ajouter un jeu</a>
+        <a href="{{ path('app_collect_new', filtreUtilisateur ? {utilisateur: filtreUtilisateur.id} : {}) }}" class="btn btn-primary">{{ ux_icon('lucide:plus', {class: 'size-4'}) }} Ajouter un jeu</a>
     </div>
+
+    {# ============================ FILTRES ============================ #}
+    {% set filtre_actif = filtreUtilisateur or filtreStatut %}
+    <form method="get" action="{{ path('app_collect_index') }}" class="card mb-4 flex flex-wrap items-end gap-4 p-4">
+        <div class="flex min-w-48 flex-1 flex-col gap-1">
+            <label for="filtre-utilisateur" class="text-sm font-medium text-slate-700">Joueur</label>
+            <select id="filtre-utilisateur" name="utilisateur" class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none">
+                <option value="">Tous les joueurs</option>
+                {% for utilisateur in utilisateurs %}
+                    <option value="{{ utilisateur.id }}" {{ filtreUtilisateur and filtreUtilisateur.id == utilisateur.id ? 'selected' }}>
+                        {{ utilisateur.pseudo }} ({{ utilisateur.prenom }} {{ utilisateur.nom|upper }})
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="flex min-w-48 flex-1 flex-col gap-1">
+            <label for="filtre-statut" class="text-sm font-medium text-slate-700">Statut</label>
+            <select id="filtre-statut" name="statut" class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none">
+                <option value="">Tous les statuts</option>
+                {% for statut in statuts %}
+                    <option value="{{ statut.value }}" {{ filtreStatut == statut ? 'selected' }}>{{ statut.getLabel }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="flex gap-2">
+            <button type="submit" class="btn btn-primary">{{ ux_icon('lucide:filter', {class: 'size-4'}) }} Filtrer</button>
+            {% if filtre_actif %}
+                <a href="{{ path('app_collect_index') }}" class="btn">{{ ux_icon('lucide:x', {class: 'size-4'}) }} Réinitialiser</a>
+            {% endif %}
+        </div>
+    </form>
+
+    <p class="mb-2 text-sm text-slate-500">{{ collects|length }} résultat{{ collects|length > 1 ? 's' }}</p>
 
     <div class="card overflow-x-auto p-0">
         <table class="table table-hover">
@@ -45,7 +78,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="8" class="py-8 text-center text-slate-500">Aucun jeu dans les collections.</td>
+                    <td colspan="8" class="py-8 text-center text-slate-500">{{ filtre_actif ? 'Aucun jeu ne correspond aux filtres.' : 'Aucun jeu dans les collections.' }}</td>
                 </tr>
             {% endfor %}
             </tbody>
