@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle entrée de collection{% endblock %}
+
+{% block breadcrumb_items %}
+    {{ include('_partials/breadcrumb_item.html.twig', {label: 'Collection', url: path('app_collect_index')}) }}
+    {{ include('_partials/breadcrumb_item.html.twig', {label: 'Nouveau'}) }}
+{% endblock %}
+
+{% block body %}
+    <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <h1 class="page-title">Ajouter à la collection</h1>
+        <a href="{{ path('app_collect_index') }}" class="btn">{{ ux_icon('lucide:arrow-left', {class: 'size-4'}) }} Retour à la liste</a>
+    </div>
+
+    <div class="card max-w-3xl">
+        {{ include('collect/_form.html.twig') }}
+    </div>
+{% endblock %}

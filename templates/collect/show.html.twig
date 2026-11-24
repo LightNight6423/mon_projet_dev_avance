@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ collect.jeuVideo.titre }} · {{ collect.utilisateur.pseudo }}{% endblock %}
+
+{% block breadcrumb_items %}
+    {{ include('_partials/breadcrumb_item.html.twig', {label: 'Collections', url: path('app_collect_index')}) }}
+    {{ include('_partials/breadcrumb_item.html.twig', {label: collect.jeuVideo.titre}) }}
+{% endblock %}
+
+{% block body %}
+    <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <h1 class="page-title">{{ collect.jeuVideo.titre }}</h1>
+        <div class="flex flex-wrap gap-2">
+            <a href="{{ path('app_collect_index') }}" class="btn">{{ ux_icon('lucide:arrow-left', {class: 'size-4'}) }} Retour à la liste</a>
+            <a href="{{ path('app_collect_edit', {'id': collect.id}) }}" class="btn btn-primary">{{ ux_icon('lucide:pencil', {class: 'size-4'}) }} Modifier</a>
+            {{ include('collect/_delete_form.html.twig') }}
+        </div>
+    </div>
+
+    <div class="max-w-4xl">
+        {{ include('collect/_card.html.twig') }}
+
+        <p class="mt-3 text-xs text-slate-400">
+            Ajouté le {{ collect.createdAt|date('d/m/Y à H:i') }}
+            {% if collect.updatedAt %}· modifié le {{ collect.updatedAt|date('d/m/Y à H:i') }}{% endif %}
+        </p>
+    </div>
+{% endblock %}

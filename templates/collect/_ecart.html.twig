@@ -1,0 +1,7 @@
+{# Écart entre le prix payé et le prix du jeu. Usage : include('collect/_ecart.html.twig', {collect: collect}) #}
+{% if collect.jeuVideo.prix is not null %}
+    {# JeuVideo.prix est une chaîne (decimal) : "+ 0" la convertit en nombre #}
+    {% set ecart = (collect.prixAchat - (collect.jeuVideo.prix + 0))|round(2) %}
+    {% set colorClass = ecart > 0 ? 'text-red-600' : (ecart < 0 ? 'text-emerald-600' : 'text-slate-500') %}
+    <span class="{{ colorClass }}">{{ ecart > 0 ? '+' : '' }}{{ ecart|format_currency('EUR', locale: 'fr') }}</span>
+{% endif %}

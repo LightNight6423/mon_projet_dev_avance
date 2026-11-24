@@ -25,7 +25,8 @@
                     <th>Description</th>
                     <th>Éditeur</th>
                     <th>Genre</th>
-                    <th class="text-right">Actions</th>
+                    <th>Actions</th>
+                    <th>Utilisateurs ayant le jeu</th>
                 </tr>
             </thead>
             <tbody>
@@ -55,6 +56,13 @@
                             <a href="{{ path('app_jeu_video_show', {'id': jeu_video.id}) }}" class="btn btn-sm">{{ ux_icon('lucide:eye', {class: 'size-3.5'}) }} Consulter</a>
                             <a href="{{ path('app_jeu_video_edit', {'id': jeu_video.id}) }}" class="btn btn-sm btn-primary">{{ ux_icon('lucide:pencil', {class: 'size-3.5'}) }} Modifier</a>
                         </div>
+                    </td>
+                    <td class="text-center">
+                        {% for collect in jeu_video.collects %}
+                            <span class="badge bg-slate-100 text-slate-700">{{ collect.utilisateur.pseudo }}</span>
+                        {% else %}
+                            <span class="text-slate-400">—</span>
+                        {% endfor %}
                     </td>
                 </tr>
             {% else %}

@@ -1,0 +1,3 @@
+{# Badge du statut. Usage : include('collect/_statut_badge.html.twig', {collect: collect}) #}
+{% set badgeClass = collect.statut.value in ['POSSEDE', 'TERMINE', 'PLATINE'] ? 'badge-success' : 'badge-muted' %}
+<span class="badge {{ badgeClass }}">{{ collect.statut.getLabel }}</span>

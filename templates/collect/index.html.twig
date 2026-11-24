@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Collections{% endblock %}
+
+{% block breadcrumb_items %}
+    {{ include('_partials/breadcrumb_item.html.twig', {label: 'Collections'}) }}
+{% endblock %}
+
+{% block body %}
+    <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <h1 class="page-title">Collections</h1>
+        <a href="{{ path('app_collect_new') }}" class="btn btn-primary">{{ ux_icon('lucide:plus', {class: 'size-4'}) }} Ajouter un jeu</a>
+    </div>
+
+    <div class="card overflow-x-auto p-0">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Jeu</th>
+                    <th>Joueur</th>
+                    <th>Statut</th>
+                    <th>Prix payé</th>
+                    <th>Écart</th>
+                    <th>Date d'achat</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for collect in collects %}
+                <tr>
+                    <td class="text-slate-400">{{ collect.id }}</td>
+                    <td class="font-medium text-slate-900">{{ collect.jeuVideo.titre }}</td>
+                    <td>{{ collect.utilisateur.pseudo }}</td>
+                    <td>{{ include('collect/_statut_badge.html.twig', {collect: collect}) }}</td>
+                    <td>{{ collect.prixAchat|format_currency('EUR', locale: 'fr') }}</td>
+                    <td>{{ include('collect/_ecart.html.twig', {collect: collect}) }}</td>
+                    <td>{{ collect.dateAchat ? collect.dateAchat|date('d/m/Y') : '—' }}</td>
+                    <td>
+                        <div class="flex justify-end gap-2">
+                            <a href="{{ path('app_collect_show', {'id': collect.id}) }}" class="btn btn-sm">{{ ux_icon('lucide:eye', {class: 'size-3.5'}) }} Consulter</a>
+                            <a href="{{ path('app_collect_edit', {'id': collect.id}) }}" class="btn btn-sm btn-primary">{{ ux_icon('lucide:pencil', {class: 'size-3.5'}) }} Modifier</a>
+                        </div>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="8" class="py-8 text-center text-slate-500">Aucun jeu dans les collections.</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

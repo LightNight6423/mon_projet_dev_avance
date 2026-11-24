@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier {{ collect.jeuVideo.titre }}{% endblock %}
+
+{% block breadcrumb_items %}
+    {{ include('_partials/breadcrumb_item.html.twig', {label: 'Collections', url: path('app_collect_index')}) }}
+    {{ include('_partials/breadcrumb_item.html.twig', {label: collect.jeuVideo.titre, url: path('app_collect_show', {'id': collect.id})}) }}
+    {{ include('_partials/breadcrumb_item.html.twig', {label: 'Modifier'}) }}
+{% endblock %}
+
+{% block body %}
+    <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <h1 class="page-title">Modifier {{ collect.jeuVideo.titre }}</h1>
+        <div class="flex flex-wrap gap-2">
+            <a href="{{ path('app_collect_index') }}" class="btn">{{ ux_icon('lucide:arrow-left', {class: 'size-4'}) }} Retour à la liste</a>
+            {{ include('collect/_delete_form.html.twig') }}
+        </div>
+    </div>
+
+    <div class="card max-w-3xl">
+        {{ include('collect/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+    </div>
+{% endblock %}
